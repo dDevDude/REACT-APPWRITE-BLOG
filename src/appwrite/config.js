@@ -1,5 +1,5 @@
 import CONFIG from "../conf/config";
-import { Client, Query, Storage, TablesDB } from "appwrite";
+import { Client, ID, Query, Storage, TablesDB } from "appwrite";
 
 export class Service {
   client = new Client();
@@ -14,6 +14,8 @@ export class Service {
     this.storage = new Storage(this.client);
     this.tablesDB = new TablesDB(this.client);
   }
+
+  // post service
 
   async createPost({ title, slug, content, featuredImage, status, userId }) {
     try {
@@ -77,6 +79,47 @@ export class Service {
         tableId: CONFIG.APPWRITE_TABLE_ID,
         queries: queries,
       });
+    } catch (error) {
+      console.log(JSON.stringify(error, null, 2));
+      return null;
+    }
+  }
+
+  // file upload service
+
+  async uploadFile(file) {
+    try {
+      return await this.storage.createFile({
+        bucketId: CONFIG.APPWRITE_BUCKET_ID,
+        fileId: ID.unique(),
+        file,
+      });
+    } catch (error) {
+      console.log(JSON.stringify(error, null, 2));
+      return null;
+    }
+  }
+
+  async deleteFile(fileId) {
+    try {
+      await this.storage.deleteFile({
+        bucketId: CONFIG.APPWRITE_BUCKET_ID,
+        fileId: fileId,
+      });
+      return true;
+    } catch (error) {
+      console.log(JSON.stringify(error, null, 2));
+      return false;
+    }
+  }
+
+  async getFilePreview(fileId) {
+    try {
+      const res = this.storage.getFilePreview({
+        bucketId: CONFIG.APPWRITE_BUCKET_ID,
+        fileId: fileId,
+      });
+      return res;
     } catch (error) {
       console.log(JSON.stringify(error, null, 2));
       return null;
