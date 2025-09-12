@@ -28,7 +28,7 @@ class AuthService {
         return user;
       }
     } catch (error) {
-      console.error(JSON.stringify(error, null, 2));
+      console.log(JSON.stringify(error, null, 2));
       return null;
     }
   }
@@ -40,7 +40,7 @@ class AuthService {
         password,
       });
     } catch (error) {
-      console.error(JSON.stringify(error, null, 2));
+      console.log(JSON.stringify(error, null, 2));
       return null;
     }
   }
@@ -49,7 +49,7 @@ class AuthService {
     try {
       return await this.account.get();
     } catch (error) {
-      console.error(JSON.stringify(error, null, 2));
+      console.log(JSON.stringify(error, null, 2));
       return null;
     }
   }
@@ -59,7 +59,7 @@ class AuthService {
       await this.account.deleteSessions();
       return true;
     } catch (error) {
-      console.error(JSON.stringify(error, null, 2));
+      console.log(JSON.stringify(error, null, 2));
       return false;
     }
   }
